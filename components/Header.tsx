@@ -18,7 +18,7 @@ const Header = () => {
   const [openMenu, setOpenMenu] = useState<boolean>(false);
 
   return (
-    <div className="shadow h-16 w-full fixed top-0 flex justify-center">
+    <div className="shadow h-16 w-full fixed top-0 flex justify-center bg-white z-50">
       <div className="max-w-[1200px] w-full h-16 flex justify-between">
         <div className="w-32 h-full flex items-center justify-center text-primary">
           <Link href="/">LOGO</Link>
