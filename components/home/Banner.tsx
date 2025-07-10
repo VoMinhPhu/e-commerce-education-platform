@@ -5,7 +5,7 @@ import { useRef } from "react";
 
 import Autoplay from "embla-carousel-autoplay";
 
-import { Carousel, CarouselItem, CarouselContent } from "./ui/carousel";
+import { Carousel, CarouselItem, CarouselContent } from "../ui/carousel";
 
 const Banner = () => {
   const plugin = useRef(Autoplay({ delay: 2000, stopOnInteraction: false }));
@@ -32,8 +32,7 @@ const Banner = () => {
                     alt={`banner ${index + 1}`}
                     width={450}
                     height={200}
-                    objectFit="cover"
-                    className="w-full h-full md:h-110 rounded-[3px]"
+                    className="w-full h-full md:h-110 rounded-[3px] object-cover"
                   />
                 </CarouselItem>
               ))}
