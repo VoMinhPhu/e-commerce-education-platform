@@ -1,30 +1,15 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
+import { useRef } from "react";
 
-import {
-  Carousel,
-  CarouselItem,
-  CarouselContent,
-  CarouselApi,
-} from "./ui/carousel";
+import Autoplay from "embla-carousel-autoplay";
+
+import { Carousel, CarouselItem, CarouselContent } from "./ui/carousel";
 
 const Banner = () => {
-  const [api, setApi] = useState<CarouselApi | null>(null);
-  const intervalRef = useRef<NodeJS.Timeout | null>(null);
+  const plugin = useRef(Autoplay({ delay: 2000, stopOnInteraction: false }));
 
-  useEffect(() => {
-    if (!api) return;
-
-    intervalRef.current = setInterval(() => {
-      api.scrollNext();
-    }, 3000);
-
-    return () => {
-      if (intervalRef.current) clearInterval(intervalRef.current);
-    };
-  }, [api]);
   return (
     <div className="flex justify-center p-8">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-3 max-w-[1200px] w-full">
@@ -33,7 +18,7 @@ const Banner = () => {
             opts={{
               loop: true,
             }}
-            setApi={setApi}
+            plugins={[plugin.current]}
             className="h-full"
           >
             <CarouselContent className="h-full">
@@ -56,20 +41,6 @@ const Banner = () => {
           </Carousel>
         </div>
         <div className="gap-3 hidden md:grid grid-cols-1 items-center h-110">
-          {/* <Image
-            src="/banner/banner1.png"
-            alt="banner 1"
-            width={450}
-            height={200}
-            className="rounded-[3px]"
-          />
-          <Image
-            src="/banner/banner3.png"
-            alt="banner 3"
-            width={450}
-            height={200}
-            className="rounded-[3px]"
-          /> */}
           <div className="flex">
             <Image
               src="/banner/banner1.png"
