@@ -1,7 +1,5 @@
 "use client";
 
-import { useEffect } from "react";
-
 import {
   Carousel,
   CarouselNext,
@@ -16,11 +14,7 @@ import { useGetTopSearch } from "@/utils/products";
 import Image from "next/image";
 
 const TopSearch = () => {
-  const { data, isLoading } = useGetTopSearch();
-
-  useEffect(() => {
-    console.log("Top search data:", data?.length, data);
-  }, [isLoading]);
+  const { data } = useGetTopSearch();
 
   return (
     <div className="flex items-center justify-center py-8 w-full bg-primary-foreground">
