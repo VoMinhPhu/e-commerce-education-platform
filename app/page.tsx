@@ -11,7 +11,7 @@ export default function Home() {
       <Banner />
       <Category />
       <TopSearch />
-      <Suggest />
+      {/* <Suggest /> */}
     </div>
   );
 }

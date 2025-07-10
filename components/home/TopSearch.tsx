@@ -1,5 +1,7 @@
 "use client";
 
+import Image from "next/image";
+
 import {
   Carousel,
   CarouselNext,
@@ -11,19 +13,18 @@ import { Card, CardContent, CardHeader } from "../ui/card";
 import TopsearchSkeleton from "../skeleton/TopsearchSkeleton";
 
 import { useGetTopSearch } from "@/utils/products";
-import Image from "next/image";
 
 const TopSearch = () => {
   const { data } = useGetTopSearch();
 
   return (
-    <div className="flex items-center justify-center py-8 w-full bg-primary-foreground">
+    <div className="flex items-center justify-center pt-0 md:py-8 w-full bg-primary-foreground">
       <div className="max-w-[1200px] border rounded-md w-full bg-white">
         <p className="font-medium text-3xl text-primary/60 mt-2 ml-2">
           TOP SEARCH
         </p>
         <div>
-          <div className="px-16 md:py-12">
+          <div className="px-16 md:py-6 lg:py-12">
             {!data ? (
               <TopsearchSkeleton />
             ) : (
@@ -41,7 +42,7 @@ const TopSearch = () => {
                     >
                       <div className="p-1">
                         <Card className="p-0 pb-8 gap-3 rounded-sm">
-                          <CardHeader className="p-0 relative">
+                          <CardHeader className="p-0 relative flex items-center justify-center">
                             <Image
                               src={item.image}
                               width={300}
