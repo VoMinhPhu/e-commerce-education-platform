@@ -1,12 +1,12 @@
 "use client";
 
+import Link from "next/link";
 import Image from "next/image";
 
+import { Button } from "../ui/button";
 import { Card, CardContent, CardDescription, CardFooter } from "../ui/card";
 
 import { useGetSuggest } from "@/utils/suggest";
-import { Button } from "../ui/button";
-import Link from "next/link";
 
 const Suggest = () => {
   const { data, isLoading } = useGetSuggest();
@@ -18,7 +18,7 @@ const Suggest = () => {
           Today's suggestion for you
           <span className="block mt-4 w-full h-1 bg-primary"></span>
         </p>
-        <div className="py-3 grid grid-cols-5 gap-4">
+        <div className="py-3 px-2 lg:px-0 grid md:grid-cols-3 lg:grid-cols-5 gap-4">
           {isLoading ? (
             <div>isloading</div>
           ) : (
@@ -36,9 +36,14 @@ const Suggest = () => {
                 <CardFooter className="flex-col px-2 pb-4">
                   <p className="line-clamp-2 w-full h-12">{item.name}</p>
                   <CardDescription className="flex items-center justify-between pt-2 w-full px-2">
-                    <span>{"đ " + item.price.toLocaleString("vi-VN")}</span>
-                    <Link href={`/product/${item.id}`}>
-                      <Button className="rounded-md cursor-pointer">
+                    <span className="min-w-20">
+                      {"đ " + item.price.toLocaleString("vi-VN")}
+                    </span>
+                    <Link
+                      href={`/product/${item.id}`}
+                      className="w-full flex justify-end"
+                    >
+                      <Button className="rounded-md cursor-pointer w-3/4">
                         Detail
                       </Button>
                     </Link>
