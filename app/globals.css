@@ -120,3 +120,26 @@
     @apply bg-background text-foreground;
   }
 }
+
+@theme {
+  --animate-rotate-180: rotate-180 0.6s ease-out forwards;
+  --animate-fade-in: fade-in 0.6s ease-out forwards;
+
+  @keyframes rotate-180 {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(180deg);
+    }
+  }
+
+  @keyframes fade-in {
+    from {
+      opacity: 0%;
+    }
+    to {
+      opacity: 100%;
+    }
+  }
+}
