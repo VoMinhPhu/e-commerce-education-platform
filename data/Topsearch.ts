@@ -6,7 +6,7 @@ export const topSearch: Product[] = [
     name: "Complete WiFi Hacking Course: Beginner to Advanced",
     price: 500000,
     desc: "Description for Product 1",
-    image: "/products/ethical-hacking.png",
+    image: "/course/ethical-hacking.png",
     category: "course",
   },
   {
@@ -38,7 +38,7 @@ export const topSearch: Product[] = [
     name: "Mastering React: From Beginner to Advanced",
     price: 450000,
     desc: "Build dynamic web apps with React and modern tools.",
-    image: "/products/react-course.jpg",
+    image: "/course/react-course.jpg",
     category: "course",
   },
   {
@@ -46,7 +46,7 @@ export const topSearch: Product[] = [
     name: "The Ultimate Python Bootcamp 2025",
     price: 349000,
     desc: "Learn Python with hands-on projects and real-world applications.",
-    image: "/products/python.jpg",
+    image: "/course/python.jpg",
     category: "course",
   },
   {
@@ -54,7 +54,7 @@ export const topSearch: Product[] = [
     name: "UI/UX Design Masterclass",
     price: 590000,
     desc: "Design beautiful, user-friendly interfaces with Figma and Adobe XD.",
-    image: "/products/ui-ux.jpg",
+    image: "/course/ui-ux.jpg",
     category: "course",
   },
   {
@@ -62,7 +62,7 @@ export const topSearch: Product[] = [
     name: "Data Science & Machine Learning Bootcamp",
     price: 690000,
     desc: "Learn data science, machine learning, and AI with Python.",
-    image: "/products/ds-ml.jpg",
+    image: "/course/ds-ml.jpg",
     category: "course",
   },
   {

@@ -53,9 +53,11 @@ const Suggest = () => {
             ))
           )}
         </div>
-        <Button className="min-w-96 mt-3 p-6 text-xl font-thin">
-          See more
-        </Button>
+        <Link href={"/product"}>
+          <Button className="min-w-96 mt-3 p-6 text-xl font-thin">
+            See more
+          </Button>
+        </Link>
       </div>
     </div>
   );
