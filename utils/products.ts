@@ -21,6 +21,25 @@ export const useGetProducts = () => {
   });
 };
 
+export const useGetDetailProduct = (id: string) => {
+  return useQuery<Product | null>({
+    queryKey: ["product", id],
+    queryFn: async ({ queryKey }) => {
+      const [_key, productId] = queryKey;
+      try {
+        const res = await api.get<Product>(`/api/products/${productId}`);
+        return res.data || null;
+      } catch (error) {
+        console.error("Error fetching product detail:", error);
+        return null;
+      }
+    },
+
+    //15 minutes
+    staleTime: 1000 * 60 * 15,
+  });
+};
+
 export const useGetTopSearch = () => {
   return useQuery<Product[] | []>({
     queryKey: ["topsearch"],
