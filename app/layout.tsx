@@ -4,6 +4,7 @@ import "./globals.css";
 
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import { Toaster } from "@/components/ui/sonner";
 import { ReactQueryProvider } from "@/components/provider/ReactqueryProvider";
 
 const geistSans = Geist({
@@ -35,6 +36,7 @@ export default function RootLayout({
           <Header />
           {children}
           <Footer />
+          <Toaster position="top-right" richColors closeButton />
         </ReactQueryProvider>
       </body>
     </html>
