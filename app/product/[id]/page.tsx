@@ -1,19 +1,19 @@
 "use client";
 
-import { useParams } from "next/navigation";
-import { useGetDetailProduct } from "@/utils/products";
-import Image from "next/image";
-import {
-  ArrowLeftIcon,
-  MinusIcon,
-  PlusIcon,
-  ShoppingCartIcon,
-} from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
 import Link from "next/link";
+import Image from "next/image";
+import { useParams } from "next/navigation";
 
-type Params = Promise<{ id: string }>;
+import { PlusIcon, MinusIcon, ArrowLeftIcon } from "lucide-react";
+
+import { cn } from "@/lib/utils";
+
+import { Button } from "@/components/ui/button";
+
+import AddToCartBtn from "./_component/AddToCartBtn";
+
+import { useGetDetailProduct } from "@/utils/products";
+
 const Page = () => {
   const params = useParams<{ id: string }>();
   const { data } = useGetDetailProduct(params.id);
@@ -89,13 +89,7 @@ const Page = () => {
             </div>
           </div>
           <div className="mt-4 grid grid-cols-2 gap-4">
-            <Button
-              className="w-full cursor-pointer rounded-sm text-primary hover:text-primary"
-              size={"lg"}
-              variant={"outline"}
-            >
-              Add to Cart <ShoppingCartIcon />
-            </Button>
+            <AddToCartBtn productId={params.id} />
             <Button className="w-full cursor-pointer rounded-sm" size={"lg"}>
               Buy now
             </Button>

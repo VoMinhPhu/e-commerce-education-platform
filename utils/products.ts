@@ -1,7 +1,11 @@
 import { api } from "@/lib/axios";
-import { Product } from "@/types/products";
-import { useQuery } from "@tanstack/react-query";
+import { AxiosError } from "axios";
 
+import { Product } from "@/types/products";
+
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+
+//Get all products
 export const useGetProducts = () => {
   return useQuery<Product[] | []>({
     queryKey: ["products", "product"],
@@ -21,18 +25,14 @@ export const useGetProducts = () => {
   });
 };
 
+// Get detail product
 export const useGetDetailProduct = (id: string) => {
-  return useQuery<Product | null>({
+  return useQuery<Product>({
     queryKey: ["product", id],
     queryFn: async ({ queryKey }) => {
       const [_key, productId] = queryKey;
-      try {
-        const res = await api.get<Product>(`/api/products/${productId}`);
-        return res.data || null;
-      } catch (error) {
-        console.error("Error fetching product detail:", error);
-        return null;
-      }
+      const res = await api.get<Product>(`/api/products/${productId}`);
+      return res.data;
     },
 
     //15 minutes
@@ -40,6 +40,7 @@ export const useGetDetailProduct = (id: string) => {
   });
 };
 
+// Get data top search
 export const useGetTopSearch = () => {
   return useQuery<Product[] | []>({
     queryKey: ["topsearch"],
@@ -56,5 +57,23 @@ export const useGetTopSearch = () => {
 
     //3 minutes
     staleTime: 1000 * 60 * 3,
+  });
+};
+
+// Add product to cart
+export const useAddProductToCart = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async (id: string) => {
+      const res = await api.post("/api/products/cart", { id });
+      return res.data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["cart"] });
+    },
+    onError: (error: AxiosError) => {
+      console.log("Message:", error.message);
+      console.log("Res:", error.response);
+    },
   });
 };
