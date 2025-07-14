@@ -2,6 +2,9 @@ import { api } from "@/lib/axios";
 import { AxiosError } from "axios";
 
 import { toast } from "sonner";
+import Cookies from "js-cookie";
+import { useAuth } from "@/stores/useAuth";
+
 import { useRouter } from "next/navigation";
 import { useMutation } from "@tanstack/react-query";
 
@@ -21,8 +24,13 @@ export const useLogin = () => {
       toast.success("Login", {
         description: data.message,
       });
-      localStorage.setItem("token", data.token);
+      Cookies.set("token", data.token, {
+        expires: 1,
+        path: "/",
+        secure: process.env.NODE_ENV === "production",
+      });
       setTimeout(() => {
+        useAuth.getState().setIsLogin(true);
         router.push("/");
       }, 2000);
     },

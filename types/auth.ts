@@ -12,3 +12,13 @@ type LoginResponse = {
 };
 
 type ErrorResponse = { error: string };
+
+type TokenPayload = {
+  id: number;
+  username: string;
+  name: string;
+  phone: string;
+  address: string;
+  dateOfBirth: string;
+  admin: boolean;
+};

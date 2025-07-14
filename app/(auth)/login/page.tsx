@@ -18,7 +18,7 @@ const page = () => {
   return (
     <div className="mt-16 bg-primary-foreground">
       <div className="max-w-300 mx-auto grid grid-cols-2">
-        <div>1</div>
+        <div>Empowering learners to thrive in the digital commerce world.</div>
         <div className="p-16">
           <Card className="w-full max-w-sm rounded-sm">
             <CardHeader>

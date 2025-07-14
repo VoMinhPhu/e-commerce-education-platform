@@ -31,7 +31,17 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  const token = jwt.sign({ username: user.username }, JWT_SECRET, {
+  const payload = {
+    username: user.username,
+    id: user.id,
+    admin: user.admin || false,
+    name: user.name || "",
+    phone: user.phone || "",
+    address: user.address || "",
+    dateOfBirth: user.dateOfBirth || "",
+  };
+
+  const token = jwt.sign(payload, JWT_SECRET, {
     expiresIn: JWT_EXPIRES_IN,
   });
 
