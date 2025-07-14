@@ -1,0 +1,14 @@
+type LoginResponse = {
+  message: string;
+  token: string;
+  user: {
+    username: string;
+    name?: string;
+    phone?: string;
+    address?: string;
+    dateOfBirth?: string;
+    admin?: boolean;
+  };
+};
+
+type ErrorResponse = { error: string };

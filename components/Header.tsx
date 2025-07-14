@@ -48,8 +48,8 @@ const Header = () => {
               openMenu ? "flex" : "hidden"
             )}
           >
-            <div className="w-full flex items-center justify-between px-4">
-              <div className="w-3/4 h-3/5 relative">
+            <div className="w-full flex items-center justify-between px-6">
+              <div className="flex-1 h-3/5 relative">
                 <Input placeholder="Search" className="h-full" />
                 <SearchIcon
                   className="absolute right-2 top-1.5 cursor-pointer text-primary"
@@ -60,22 +60,30 @@ const Header = () => {
                 <ShoppingCartIcon className="text-primary" />
               </Button>
             </div>
-            <div className="flex items-center justify-center mt-2 gap-4 px-6 w-full">
-              <Button className="cursor-pointer h-3/5 w-1/2">Register</Button>
-              <Button className="cursor-pointer h-3/5 w-1/2">
-                Login
-                <LogInIcon />
-              </Button>
+            <div className="grid grid-cols-2 mt-2 gap-4 px-6 w-full">
+              <Link className="w-full" href={"/register"}>
+                <Button className="w-full">Register</Button>
+              </Link>
+              <Link className="w-full" href={"/login"}>
+                <Button className="w-full">
+                  Login
+                  <LogInIcon />
+                </Button>
+              </Link>
             </div>
           </div>
         </div>
 
         <div className="hidden md:flex items-center gap-4 mr-2 lg:mr-0">
-          <Button className="cursor-pointer h-3/5">Register</Button>
-          <Button className="cursor-pointer h-3/5">
-            Login
-            <LogInIcon />
-          </Button>
+          <Link href={"/register"}>
+            <Button className="cursor-pointer h-3/5">Register</Button>
+          </Link>
+          <Link href={"/login"}>
+            <Button className="cursor-pointer h-3/5">
+              Login
+              <LogInIcon />
+            </Button>
+          </Link>
         </div>
       </div>
     </div>
