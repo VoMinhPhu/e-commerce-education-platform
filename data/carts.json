@@ -1,0 +1,11 @@
+[
+  {
+    "userId": 1,
+    "productIds": [
+      {
+        "productId": "110",
+        "count": 4
+      }
+    ]
+  }
+]
