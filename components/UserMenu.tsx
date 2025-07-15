@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import { jwtDecode } from "jwt-decode";
 import { useAuth } from "@/stores/useAuth";
+import { useUser } from "@/stores/useUser";
 
 import { cn } from "@/lib/utils";
 import { LogInIcon, LogOutIcon, SettingsIcon, UserPenIcon } from "lucide-react";
@@ -22,6 +23,7 @@ const UserMenu = () => {
     if (token) {
       try {
         const decoded = jwtDecode<TokenPayload>(token);
+        useUser.getState().setUserData(decoded);
         setUser(decoded);
       } catch {
         setUser(null);
@@ -58,6 +60,7 @@ const UserMenu = () => {
               </p>
               <div className="grid grid-cols-1 gap-1">
                 <Link
+                  onClick={() => setOpenMenu(!openMenu)}
                   href={"/user"}
                   className="py-2 pl-7 hover:bg-primary-foreground hover:text-primary flex items-center gap-2 opacity-75"
                 >
@@ -65,6 +68,7 @@ const UserMenu = () => {
                   Profile
                 </Link>
                 <Link
+                  onClick={() => setOpenMenu(!openMenu)}
                   href={"/#"}
                   className="py-2 pl-7 hover:bg-primary-foreground hover:text-primary flex items-center gap-2 opacity-75"
                 >
@@ -73,6 +77,7 @@ const UserMenu = () => {
                 </Link>
                 <Separator className="mb-2" />
                 <Button
+                  onClick={() => setOpenMenu(!openMenu)}
                   variant={"ghost"}
                   size={"lg"}
                   className="justify-start cursor-pointer text-base hover:bg-primary-foreground hover:text-primary flex items-center gap-2 opacity-75"

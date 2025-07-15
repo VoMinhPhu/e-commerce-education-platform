@@ -6,7 +6,7 @@ import Image from "next/image";
 import { Button } from "../ui/button";
 import { Card, CardContent, CardDescription, CardFooter } from "../ui/card";
 
-import { useGetSuggest } from "@/utils/suggest";
+import { useGetSuggest } from "@/utils/api/suggest";
 import SuggestSkeleton from "./SuggestSkeleton";
 
 const Suggest = () => {

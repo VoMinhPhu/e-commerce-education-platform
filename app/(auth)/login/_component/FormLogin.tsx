@@ -6,7 +6,7 @@ import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { useLogin } from "@/utils/auth";
+import { useLogin } from "@/utils/api/auth";
 
 import {
   Form,

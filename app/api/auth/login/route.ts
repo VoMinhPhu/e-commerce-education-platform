@@ -37,6 +37,7 @@ export async function POST(req: NextRequest) {
     admin: user.admin || false,
     name: user.name || "",
     phone: user.phone || "",
+    gender: user.gender || "",
     address: user.address || "",
     dateOfBirth: user.dateOfBirth || "",
   };

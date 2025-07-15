@@ -3,7 +3,10 @@ import { AxiosError } from "axios";
 
 import { toast } from "sonner";
 import Cookies from "js-cookie";
+import { jwtDecode } from "jwt-decode";
+
 import { useAuth } from "@/stores/useAuth";
+import { useUser } from "@/stores/useUser";
 
 import { useRouter } from "next/navigation";
 import { useMutation } from "@tanstack/react-query";
@@ -29,8 +32,10 @@ export const useLogin = () => {
         path: "/",
         secure: process.env.NODE_ENV === "production",
       });
+      const decoded = jwtDecode<TokenPayload>(data.token);
       setTimeout(() => {
         useAuth.getState().setIsLogin(true);
+        useUser.getState().setUserData(decoded);
         router.push("/");
       }, 2000);
     },
