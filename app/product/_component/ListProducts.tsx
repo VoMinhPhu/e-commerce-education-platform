@@ -4,7 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useMemo, useState } from "react";
 
-import { useGetProducts } from "@/utils/products";
+import { useGetProducts } from "@/utils/api/products";
 
 import ListProductsMenu from "./ListProductsMenu";
 import ListProductsSkeleton from "./ListProductsSkeleton";

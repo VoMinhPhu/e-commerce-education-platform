@@ -1,27 +1,41 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useState } from "react";
 
+import { useAuth } from "@/stores/useAuth";
+
 import {
-  LogInIcon,
   MenuIcon,
+  LogInIcon,
   SearchIcon,
   ShoppingCartIcon,
 } from "lucide-react";
 
-import { Input } from "./ui/input";
-import { Button } from "./ui/button";
 import { cn } from "@/lib/utils";
+
+import UserMenu from "./UserMenu";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 
 const Header = () => {
   const [openMenu, setOpenMenu] = useState<boolean>(false);
+  const isLogin = useAuth((state) => state.isLogin);
 
   return (
     <div className="shadow h-16 w-full fixed top-0 flex justify-center bg-white z-50">
-      <div className="max-w-[1200px] w-full h-16 flex justify-between">
-        <div className="w-32 h-full flex items-center justify-center text-primary">
-          <Link href="/">LOGO</Link>
+      <div className="max-w-[1200px] w-full h-16 flex justify-between px-1 lg:px-0">
+        <div className="w-50 h-full flex items-center justify-center text-primary">
+          <Link href="/">
+            <Image
+              src={"/logo-lg.svg"}
+              width={300}
+              height={100}
+              alt="Logo"
+              className="h-auto w-full"
+            />
+          </Link>
         </div>
         {/* Tablet and destop */}
         <div className="hidden md:flex items-center mx-12 flex-1 justify-end">
@@ -38,7 +52,7 @@ const Header = () => {
         </div>
 
         {/* Mobile */}
-        <div className="md:hidden flex items-center justify-end flex-1 mr-6 h-full">
+        <div className="md:hidden flex items-center justify-end flex-1 mr-4 h-full">
           <Button onClick={() => setOpenMenu(!openMenu)}>
             <MenuIcon />
           </Button>
@@ -60,7 +74,12 @@ const Header = () => {
                 <ShoppingCartIcon className="text-primary" />
               </Button>
             </div>
-            <div className="grid grid-cols-2 mt-2 gap-4 px-6 w-full">
+            <div
+              className={cn(
+                "grid grid-cols-2 mt-2 gap-4 px-6 w-full",
+                isLogin && "hidden"
+              )}
+            >
               <Link className="w-full" href={"/register"}>
                 <Button className="w-full">Register</Button>
               </Link>
@@ -73,18 +92,7 @@ const Header = () => {
             </div>
           </div>
         </div>
-
-        <div className="hidden md:flex items-center gap-4 mr-2 lg:mr-0">
-          <Link href={"/register"}>
-            <Button className="cursor-pointer h-3/5">Register</Button>
-          </Link>
-          <Link href={"/login"}>
-            <Button className="cursor-pointer h-3/5">
-              Login
-              <LogInIcon />
-            </Button>
-          </Link>
-        </div>
+        <UserMenu />
       </div>
     </div>
   );

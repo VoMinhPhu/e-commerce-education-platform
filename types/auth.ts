@@ -5,6 +5,7 @@ type LoginResponse = {
     username: string;
     name?: string;
     phone?: string;
+    gender?: string;
     address?: string;
     dateOfBirth?: string;
     admin?: boolean;
@@ -12,3 +13,14 @@ type LoginResponse = {
 };
 
 type ErrorResponse = { error: string };
+
+type TokenPayload = {
+  id: number;
+  username: string;
+  name: string;
+  phone: string;
+  gender: string;
+  address: string;
+  dateOfBirth: string;
+  admin: boolean;
+};

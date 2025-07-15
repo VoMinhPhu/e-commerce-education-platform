@@ -15,7 +15,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
-import { useRegister } from "@/utils/auth";
+import { useRegister } from "@/utils/api/auth";
 
 const formRegister = z
   .object({

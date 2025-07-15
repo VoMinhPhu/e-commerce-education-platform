@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { useAddProductToCart } from "@/utils/products";
+import { useAddProductToCart } from "@/utils/api/products";
 import { ShoppingCartIcon } from "lucide-react";
 import { useEffect } from "react";
 import { toast } from "sonner";

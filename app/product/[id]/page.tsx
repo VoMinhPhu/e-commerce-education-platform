@@ -12,7 +12,7 @@ import { Button } from "@/components/ui/button";
 
 import AddToCartBtn from "./_component/AddToCartBtn";
 
-import { useGetDetailProduct } from "@/utils/products";
+import { useGetDetailProduct } from "@/utils/api/products";
 
 const Page = () => {
   const params = useParams<{ id: string }>();

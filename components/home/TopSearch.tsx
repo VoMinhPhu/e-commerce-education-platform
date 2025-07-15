@@ -15,7 +15,7 @@ import TopsearchSkeleton from "../skeleton/TopsearchSkeleton";
 
 import { ChevronRightIcon } from "lucide-react";
 
-import { useGetTopSearch } from "@/utils/products";
+import { useGetTopSearch } from "@/utils/api/products";
 
 const TopSearch = () => {
   const { data } = useGetTopSearch();

@@ -4,6 +4,7 @@ type User = {
   password: string;
   name?: string;
   phone?: string;
+  gender?: string;
   address?: string;
   dateOfBirth?: string;
   admin?: boolean;
