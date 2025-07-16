@@ -2,16 +2,18 @@
 
 import Link from "next/link";
 import Image from "next/image";
+import { useState } from "react";
 import { useParams } from "next/navigation";
 
-import { PlusIcon, MinusIcon, ArrowLeftIcon } from "lucide-react";
-
-import { cn } from "@/lib/utils";
+import { ArrowLeftIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import AddToCartBtn from "./_component/AddToCartBtn";
+import CountProduct from "./_component/CountProduct";
+
 import { useGetDetailProduct } from "@/utils/api/products";
 
 const Page = () => {
+  const [count, setCount] = useState<number>(1);
   const params = useParams<{ id: string }>();
   const { data } = useGetDetailProduct(params.id);
 
@@ -50,43 +52,15 @@ const Page = () => {
               đ
             </span>
 
-            {data.price.toLocaleString("vi-VN")}
+            {(data.price * count).toLocaleString("vi-VN")}
           </p>
-          <div>
-            <div className="flex px-4 my-4">
-              <span className="opacity-70">Count</span>
-              <div
-                className={cn(
-                  "flex gap-1 px-4",
-                  data.category === "course" && "opacity-40"
-                )}
-              >
-                <span
-                  className={cn(
-                    "flex items-center justify-center cursor-pointer hover:bg-primary-foreground border px-6 rounded-sm",
-                    data.category === "course" &&
-                      "cursor-not-allowed hover:bg-white"
-                  )}
-                >
-                  <MinusIcon size={16} />
-                </span>
-                <span className="flex items-center justify-center border px-6 rounded-sm">
-                  1
-                </span>
-                <span
-                  className={cn(
-                    "flex items-center justify-center cursor-pointer hover:bg-primary-foreground border px-6 rounded-sm",
-                    data.category === "course" &&
-                      "cursor-not-allowed hover:bg-white"
-                  )}
-                >
-                  <PlusIcon size={16} />
-                </span>
-              </div>
-            </div>
-          </div>
+          <CountProduct
+            count={count}
+            setCount={setCount}
+            category={data.category}
+          />
           <div className="mt-4 grid grid-cols-2 gap-4 px-4 md:px-0">
-            <AddToCartBtn productId={params.id} />
+            <AddToCartBtn productId={params.id} count={count} />
             <Button className="w-full cursor-pointer rounded-sm" size={"lg"}>
               Buy now
             </Button>

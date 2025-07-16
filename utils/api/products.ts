@@ -1,9 +1,5 @@
 import { api } from "@/lib/axios";
-import { AxiosError } from "axios";
-
-import { Product } from "@/types/products";
-
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 
 //Get all products
 export const useGetProducts = () => {
@@ -57,23 +53,5 @@ export const useGetTopSearch = () => {
 
     //3 minutes
     staleTime: 1000 * 60 * 3,
-  });
-};
-
-// Add product to cart
-export const useAddProductToCart = () => {
-  const queryClient = useQueryClient();
-  return useMutation({
-    mutationFn: async (id: string) => {
-      const res = await api.post("/api/products/cart", { id });
-      return res.data;
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["cart"] });
-    },
-    onError: (error: AxiosError) => {
-      console.log("Message:", error.message);
-      console.log("Res:", error.response);
-    },
   });
 };

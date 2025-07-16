@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { MenuIcon, SearchIcon, ShoppingCartIcon } from "lucide-react";
 
@@ -12,9 +12,18 @@ import UserMenu from "./UserMenu";
 import AuthBtn from "./home/AuthBtn";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { useAuth } from "@/stores/useAuth";
 
 const Header = () => {
   const [openMenu, setOpenMenu] = useState<boolean>(false);
+  const isLogin = useAuth((state) => state.isLogin);
+  const [mounted, setMounted] = useState<boolean>(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) return null;
 
   return (
     <div className="shadow h-16 w-full fixed top-0 flex justify-center bg-white z-50">
@@ -39,9 +48,12 @@ const Header = () => {
               size={20}
             />
           </div>
-          <Button variant="outline" className="h-3/5 ml-4">
+          <Link
+            href={"/user/cart"}
+            className="rounded-sm border h-3/5 p-1.5 ml-4"
+          >
             <ShoppingCartIcon className="text-primary" />
-          </Button>
+          </Link>
         </div>
 
         {/* Mobile */}
@@ -57,15 +69,18 @@ const Header = () => {
           >
             <div className="w-full flex items-center justify-between px-6">
               <div className="flex-1 h-3/5 relative">
-                <Input placeholder="Search" className="h-full" />
+                <Input placeholder="Search" className="h-8" />
                 <SearchIcon
                   className="absolute right-2 top-1.5 cursor-pointer text-primary"
                   size={20}
                 />
               </div>
-              <Button variant="outline" className="h-3/5 ml-4">
+              <Link
+                href={"/user/cart"}
+                className="h-8 ml-4 border p-1 rounded-sm"
+              >
                 <ShoppingCartIcon className="text-primary" />
-              </Button>
+              </Link>
             </div>
 
             <AuthBtn />
