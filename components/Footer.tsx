@@ -1,5 +1,5 @@
-import Image from "next/image";
 import Link from "next/link";
+import Image from "next/image";
 
 const Footer = () => {
   return (
@@ -23,22 +23,49 @@ const Footer = () => {
           </p>
           <div className="flex flex-wrap items-center gap-3 px-6">
             <Image
+              className="h-auto w-12"
               src="/footer/paypal.svg"
               width={50}
               height={40}
               alt="paypal"
             />
-            <Image src="/footer/visa.svg" width={50} height={40} alt="visa" />
-            <Image src="/footer/vnpay.svg" width={50} height={40} alt="vnpay" />
-            <Image src="/footer/momo.svg" width={50} height={40} alt="momo" />
-            <Image src="/footer/atm.svg" width={50} height={40} alt="atm" />
             <Image
+              className="h-auto w-12"
+              src="/footer/visa.svg"
+              width={50}
+              height={40}
+              alt="visa"
+            />
+            <Image
+              className="h-auto w-12"
+              src="/footer/vnpay.svg"
+              width={50}
+              height={40}
+              alt="vnpay"
+            />
+            <Image
+              className="h-auto w-12"
+              src="/footer/momo.svg"
+              width={50}
+              height={40}
+              alt="momo"
+            />
+            <Image
+              className="h-auto w-12"
+              src="/footer/atm.svg"
+              width={50}
+              height={40}
+              alt="atm"
+            />
+            <Image
+              className="h-auto w-12"
               src="/footer/viettelmoney.svg"
               width={50}
               height={40}
               alt="viettelmoney"
             />
             <Image
+              className="h-auto w-12"
               src="/footer/zalopay.svg"
               width={50}
               height={40}
@@ -98,6 +125,7 @@ const Footer = () => {
             <div className="flex gap-3 px-6">
               <div>
                 <Image
+                  className="w-auto"
                   src="/footer/qrcode.png"
                   width={80}
                   height={80}
@@ -106,12 +134,14 @@ const Footer = () => {
               </div>
               <div className="flex flex-col gap-2.5">
                 <Image
+                  className="w-auto"
                   src="/footer/appstore.png"
                   width={120}
                   height={40}
                   alt="appstore"
                 />
                 <Image
+                  className="w-auto"
                   src="/footer/playstore.png"
                   width={120}
                   height={40}

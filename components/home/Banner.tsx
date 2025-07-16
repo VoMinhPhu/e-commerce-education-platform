@@ -12,7 +12,7 @@ const Banner = () => {
 
   return (
     <div className="flex justify-center p-8">
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-3 max-w-[1200px] w-full">
+      <div className="grid grid-cols-1 ml:grid-cols-3 gap-3 max-w-[1200px] w-full">
         <div className="md:col-span-2">
           <Carousel
             opts={{
@@ -39,7 +39,7 @@ const Banner = () => {
             </CarouselContent>
           </Carousel>
         </div>
-        <div className="gap-3 hidden md:grid grid-cols-1 items-center h-110">
+        <div className="gap-3 hidden ml:grid grid-cols-1 items-center h-110">
           <div className="flex">
             <Image
               src="/banner/banner1.png"
