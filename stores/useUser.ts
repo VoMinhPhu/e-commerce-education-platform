@@ -2,9 +2,10 @@ import { create } from "zustand";
 
 type UserState = TokenPayload & {
   setUserData: (data: TokenPayload) => void;
+  resetUser: () => void;
 };
 
-export const useUser = create<UserState>((set) => ({
+const initialState: TokenPayload = {
   id: 0,
   username: "",
   name: "",
@@ -13,5 +14,12 @@ export const useUser = create<UserState>((set) => ({
   gender: "",
   dateOfBirth: "",
   admin: false,
+};
+
+export const useUser = create<UserState>((set) => ({
+  ...initialState,
   setUserData: (data) => set({ ...data }),
+  resetUser: () => {
+    set(initialState);
+  },
 }));

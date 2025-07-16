@@ -1,1 +1,15 @@
-[]
+[
+  {
+    "userId": 1,
+    "productIds": [
+      {
+        "productId": "15",
+        "count": 1
+      },
+      {
+        "productId": "107",
+        "count": 1
+      }
+    ]
+  }
+]

@@ -6,7 +6,6 @@ import { useState } from "react";
 import { useParams } from "next/navigation";
 
 import { ArrowLeftIcon } from "lucide-react";
-
 import { Button } from "@/components/ui/button";
 import AddToCartBtn from "./_component/AddToCartBtn";
 import CountProduct from "./_component/CountProduct";
@@ -26,24 +25,24 @@ const Page = () => {
         <div className="col-span-5 mt-2">
           <Link
             href={"/product"}
-            className="underline text-primary flex items-center text-[18px]"
+            className="underline text-primary flex items-center h-10 text-[18px]"
           >
             <ArrowLeftIcon size={18} className="mr-2" />
             Product
           </Link>
         </div>
-        <div className="w-full h-100 relative p-2 col-span-2">
+        <div className="w-full h-100 relative p-2 col-span-5 md:col-span-2">
           <Image
             src={data.image}
             alt={data.name}
             width={400}
             height={400}
             priority
-            className="w-full h-full object-contain"
+            className="w-full h-full rounded-lg object-contain"
           />
           <div className="absolute left-0 bottom-0 w-full h-1/2 bg-gradient-to-t from-emerald-100/90 rounded-sm"></div>
         </div>
-        <div className="col-span-3">
+        <div className="col-span-5 md:col-span-3">
           <p className="font-medium text-2xl min-h-12 text-primary">
             {data.name}
           </p>
@@ -60,7 +59,7 @@ const Page = () => {
             setCount={setCount}
             category={data.category}
           />
-          <div className="mt-4 grid grid-cols-2 gap-4">
+          <div className="mt-4 grid grid-cols-2 gap-4 px-4 md:px-0">
             <AddToCartBtn productId={params.id} count={count} />
             <Button className="w-full cursor-pointer rounded-sm" size={"lg"}>
               Buy now

@@ -74,3 +74,14 @@ export const useRegister = () => {
     },
   });
 };
+
+export const useLogout = () => {
+  const router = useRouter();
+
+  return () => {
+    Cookies.remove("token");
+    useAuth.getState().setIsLogin(false);
+    useUser.getState().resetUser();
+    router.push("/");
+  };
+};
