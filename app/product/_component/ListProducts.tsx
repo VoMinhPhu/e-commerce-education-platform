@@ -50,7 +50,7 @@ const ListProducts = () => {
         arrange={arrange}
         setArrange={setArrange}
       />
-      <div className="mt-4 grid grid-cols-5 gap-x-2 gap-y-3">
+      <div className="mt-4 grid md:grid-cols-3 lg:grid-cols-5 gap-x-2 gap-y-3">
         {currentPageData &&
           currentPageData.map((item) => (
             <Link key={item.id} href={`/product/${item.id}`}>
