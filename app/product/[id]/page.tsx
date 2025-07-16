@@ -9,6 +9,7 @@ import { ArrowLeftIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import AddToCartBtn from "./_component/AddToCartBtn";
 import CountProduct from "./_component/CountProduct";
+import NotFoundPage from "./_component/NotFoundPage";
 
 import { useGetDetailProduct } from "@/utils/api/products";
 
@@ -17,7 +18,7 @@ const Page = () => {
   const params = useParams<{ id: string }>();
   const { data } = useGetDetailProduct(params.id);
 
-  if (!data) return <div>none</div>;
+  if (!data) return <NotFoundPage />;
 
   return (
     <div className="mt-16 flex justify-center">
