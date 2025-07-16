@@ -1,5 +1,3 @@
-import { Product } from "@/types/products";
-
 export const books: Product[] = [
   {
     id: "101",

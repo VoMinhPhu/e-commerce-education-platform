@@ -1,5 +1,3 @@
-import { Product } from "@/types/products";
-
 export const topSearch: Product[] = [
   {
     id: "10001",
