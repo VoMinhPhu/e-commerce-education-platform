@@ -1,7 +1,7 @@
 import { ShoppingCartIcon } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import { useAddProductToCart } from "@/utils/api/products";
+import { useAddProductToCart } from "@/utils/api/cart";
 
 type Props = {
   productId: string;

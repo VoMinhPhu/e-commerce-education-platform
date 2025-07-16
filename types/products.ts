@@ -6,5 +6,3 @@ type Product = {
   image: string;
   category: string;
 };
-
-export type { Product };

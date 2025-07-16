@@ -1,18 +1,11 @@
 import { NextResponse } from "next/server";
-import jwt from "jsonwebtoken";
 import fs from "fs";
 import path from "path";
+import jwt from "jsonwebtoken";
+import { books } from "@/data/Books";
+import { courses } from "@/data/Course";
 
 const filePath = path.join(process.cwd(), "data", "carts.json");
-
-interface TokenPayload {
-  id: number;
-}
-
-interface Cart {
-  userId: number;
-  productIds: { productId: string; count: number }[];
-}
 
 export async function POST(request: Request) {
   const { id, count } = await request.json();
@@ -53,5 +46,42 @@ export async function POST(request: Request) {
     );
   } catch (err) {
     return NextResponse.json({ error: "Invalid token" }, { status: 401 });
+  }
+}
+export async function GET(request: Request) {
+  const authHeader = request.headers.get("authorization");
+  const token = authHeader?.split(" ")[1];
+
+  if (!token) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  try {
+    // decoded to get userId
+    const decoded = jwt.verify(token, process.env.JWT_SECRET!) as TokenPayload;
+
+    const fileData = fs.readFileSync(filePath, "utf-8");
+    const carts: Cart[] = fileData ? JSON.parse(fileData) : [];
+
+    const resData = carts.find((c) => c.userId === decoded.id);
+
+    if (!resData) {
+      return NextResponse.json({ data: [] }, { status: 200 });
+    }
+
+    const listProduct = resData.productIds.map((p) => {
+      const book = books.find((b) => b.id === p.productId);
+      const course = courses.find((c) => c.id === p.productId);
+      const product = book || course;
+
+      return {
+        ...product,
+        count: p.count,
+      };
+    });
+
+    return NextResponse.json(listProduct, { status: 200 });
+  } catch (err) {
+    return NextResponse.json({ error: "Token expired" }, { status: 401 });
   }
 }
