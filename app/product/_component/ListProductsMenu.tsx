@@ -1,10 +1,12 @@
-import { cn } from "@/lib/utils";
+import React from "react";
+
 import {
   ChevronDownIcon,
   ChevronLeftIcon,
   ChevronRightIcon,
 } from "lucide-react";
-import React from "react";
+
+import { cn } from "@/lib/utils";
 
 type Props = {
   page: number;
@@ -27,12 +29,12 @@ const ListProductsMenu = (props: Props) => {
   };
   return (
     <div className="bg-green-100 p-3 rounded-sm flex items-center justify-between gap-2">
-      <div className="flex items-center gap-2">
-        <p className="text-sm mr-1">Arrange by</p>
+      <div className="flex items-center gap-2 pl-10 lg:pl-0">
+        <p className="text-sm mr-1 hidden lg:block">Arrange by</p>
         <div className="rounded-[2px] max-h-8 bg-white text-sm py-1.5 px-5 cursor-pointer">
           Newest
         </div>
-        <div className="rounded-[2px] max-h-8 bg-white text-sm py-1.5 px-5 cursor-pointer">
+        <div className="rounded-[2px] max-h-8 bg-white text-sm py-1.5 px-5 w-30 cursor-pointer">
           Best seller
         </div>
         <div className="group relative rounded-[2px] bg-white text-sm py-1.5 pl-5 pr-2 flex items-center justify-between min-w-30">
@@ -58,7 +60,7 @@ const ListProductsMenu = (props: Props) => {
           </div>
         </div>
       </div>
-      <div className="grid grid-cols-2 gap-1">
+      <div className="hidden md:grid grid-cols-2 gap-1">
         <div className="flex items-center justify-end mr-2 text-sm font-medium">
           <span className="text-primary mr-0.5">{props.page}</span>
           <span>/{props.totalPage}</span>

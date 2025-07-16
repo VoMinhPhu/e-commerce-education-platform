@@ -1,9 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
-import fs from "fs";
-import path from "path";
+import { db } from "@/lib/firebase";
+import { collection, query, where, getDocs } from "firebase/firestore";
 const jwt = require("jsonwebtoken");
-
-const filePath = path.join(process.cwd(), "data", "users.json");
 
 const JWT_SECRET = process.env.JWT_SECRET!;
 const JWT_EXPIRES_IN = process.env.JWT_EXPIRES_IN || "1h";
@@ -12,43 +10,65 @@ export async function POST(req: NextRequest) {
   const { username, password } = await req.json();
 
   if (!username || !password) {
-    return NextResponse.json(
-      { error: "Username, password is require" },
+    return NextResponse.json<ErrorResponse>(
+      { error: "Username and password are required." },
       { status: 400 }
     );
   }
 
-  const fileData = fs.readFileSync(filePath, "utf-8");
-  const users = JSON.parse(fileData);
+  try {
+    const usersRef = collection(db, "users");
+    const q = query(
+      usersRef,
+      where("username", "==", username),
+      where("password", "==", password)
+    );
+    const querySnapshot = await getDocs(q);
 
-  const user = users.find(
-    (u: any) => u.username === username && u.password === password
-  );
-  if (!user) {
-    return NextResponse.json(
-      { error: "Username or password is invalid" },
-      { status: 401 }
+    if (querySnapshot.empty) {
+      return NextResponse.json<ErrorResponse>(
+        { error: "Username or password is invalid" },
+        { status: 401 }
+      );
+    }
+
+    const user = querySnapshot.docs[0].data();
+
+    const payload: TokenPayload = {
+      id: user.id,
+      username: user.username,
+      name: user.name || "",
+      phone: user.phone || "",
+      gender: user.gender || "",
+      address: user.address || "",
+      dateOfBirth: user.dateOfBirth || "",
+      admin: user.admin || false,
+    };
+
+    const token = jwt.sign(payload, JWT_SECRET, {
+      expiresIn: JWT_EXPIRES_IN,
+    });
+
+    const response: LoginResponse = {
+      message: "Login is successful!",
+      token,
+      user: {
+        username: payload.username,
+        name: payload.name,
+        phone: payload.phone,
+        gender: payload.gender,
+        address: payload.address,
+        dateOfBirth: payload.dateOfBirth,
+        admin: payload.admin,
+      },
+    };
+
+    return NextResponse.json(response);
+  } catch (error) {
+    console.error(error);
+    return NextResponse.json<ErrorResponse>(
+      { error: "Something went wrong." },
+      { status: 500 }
     );
   }
-
-  const payload = {
-    username: user.username,
-    id: user.id,
-    admin: user.admin || false,
-    name: user.name || "",
-    phone: user.phone || "",
-    gender: user.gender || "",
-    address: user.address || "",
-    dateOfBirth: user.dateOfBirth || "",
-  };
-
-  const token = jwt.sign(payload, JWT_SECRET, {
-    expiresIn: JWT_EXPIRES_IN,
-  });
-
-  return NextResponse.json({
-    message: "Login is successful !",
-    token,
-    user: { username: user.username },
-  });
 }

@@ -1,35 +1,65 @@
 import { NextRequest, NextResponse } from "next/server";
-import fs from "fs";
-import path from "path";
-
-const filePath = path.join(process.cwd(), "data", "users.json");
+import { db } from "@/lib/firebase";
+import { collection, addDoc, getDocs, query, where } from "firebase/firestore";
 
 export async function POST(req: NextRequest) {
-  const { username, password } = await req.json();
+  const {
+    username,
+    password,
+    name,
+    phone,
+    gender,
+    address,
+    dateOfBirth,
+    admin = false,
+  } = await req.json();
 
   if (!username || !password) {
     return NextResponse.json(
-      { error: "Username, password is require" },
+      { error: "Username and password are required." },
       { status: 400 }
     );
   }
 
-  const fileData = fs.readFileSync(filePath, "utf-8");
-  const users: User[] = JSON.parse(fileData);
+  try {
+    const usersRef = collection(db, "users");
 
-  const isExist = users.find((u) => u.username === username);
-  if (isExist) {
-    return NextResponse.json({ error: "Username is already" }, { status: 409 });
+    // Kiểm tra trùng username
+    const q = query(usersRef, where("username", "==", username));
+    const querySnapshot = await getDocs(q);
+    if (!querySnapshot.empty) {
+      return NextResponse.json(
+        { error: "Username is already taken." },
+        { status: 409 }
+      );
+    }
+
+    // Tự tính id tăng dần
+    const allUsersSnap = await getDocs(usersRef);
+    const ids = allUsersSnap.docs.map((doc) => (doc.data().id as number) ?? 0);
+    const nextId = ids.length ? Math.max(...ids) + 1 : 1;
+
+    // Tạo user mới (loại bỏ các field undefined)
+    const newUser: User = {
+      id: nextId,
+      username,
+      password,
+      ...(name && { name }),
+      ...(phone && { phone }),
+      ...(gender && { gender }),
+      ...(address && { address }),
+      ...(dateOfBirth && { dateOfBirth }),
+      admin,
+    };
+
+    await addDoc(usersRef, newUser);
+
+    return NextResponse.json({ message: "Register successful!" });
+  } catch (error) {
+    console.error(error);
+    return NextResponse.json(
+      { error: "Something went wrong." },
+      { status: 500 }
+    );
   }
-
-  const idNewUser = Math.max(0, ...users.map((u) => u.id ?? 0)) + 1;
-
-  const newUser: User = { id: idNewUser, username, password };
-  users.push(newUser);
-
-  fs.writeFileSync(filePath, JSON.stringify(users, null, 2), "utf-8");
-
-  return NextResponse.json({
-    message: "Register is successful !",
-  });
 }

@@ -40,10 +40,10 @@ const PaginationControl = ({ page, setPage, totalPage }: Props) => {
   };
 
   return (
-    <div className="h-12 w-full mt-4 flex items-center justify-center rounded-sm gap-2 bg-white">
+    <div className="h-12 w-full mt-4 flex items-center justify-center rounded-sm gap-1 md:gap-2 bg-white">
       <span
         onClick={() => handleControlPage("previous")}
-        className="cursor-pointer border py-2 px-4 h-9 text-primary flex items-center justify-center rounded-[2px]"
+        className="cursor-pointer border py-2 px-2 md:px-4 h-7 md:h-9 text-primary flex items-center justify-center rounded-[2px]"
       >
         <ChevronLeftIcon size={16} />
         <span className="text-sm ml-1">Previous</span>
@@ -54,7 +54,7 @@ const PaginationControl = ({ page, setPage, totalPage }: Props) => {
           key={i}
           onClick={() => typeof p === "number" && setPage(p)}
           className={cn(
-            "cursor-pointer border py-2 px-4 h-9 text-sm flex items-center justify-center rounded-[2px]",
+            "cursor-pointer border py-2 px-4 h-7 md:h-9 text-sm flex items-center justify-center rounded-[2px]",
             p === page && "text-primary font-semibold",
             p === "..." && "cursor-default text-gray-400"
           )}
@@ -65,7 +65,7 @@ const PaginationControl = ({ page, setPage, totalPage }: Props) => {
 
       <span
         onClick={() => handleControlPage("next")}
-        className="cursor-pointer border py-2 px-4 h-9 text-primary flex items-center justify-center rounded-[2px]"
+        className="cursor-pointer border py-2 px-2 md:px-4 h-7 md:h-9 text-primary flex items-center justify-center rounded-[2px]"
       >
         <span className="text-sm mr-1">Next</span>
         <ChevronRightIcon size={16} />
