@@ -4,24 +4,17 @@ import Link from "next/link";
 import Image from "next/image";
 import { useState } from "react";
 
-import { useAuth } from "@/stores/useAuth";
-
-import {
-  MenuIcon,
-  LogInIcon,
-  SearchIcon,
-  ShoppingCartIcon,
-} from "lucide-react";
+import { MenuIcon, SearchIcon, ShoppingCartIcon } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 
 import UserMenu from "./UserMenu";
+import AuthBtn from "./home/AuthBtn";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
 const Header = () => {
   const [openMenu, setOpenMenu] = useState<boolean>(false);
-  const isLogin = useAuth((state) => state.isLogin);
 
   return (
     <div className="shadow h-16 w-full fixed top-0 flex justify-center bg-white z-50">
@@ -74,22 +67,8 @@ const Header = () => {
                 <ShoppingCartIcon className="text-primary" />
               </Button>
             </div>
-            <div
-              className={cn(
-                "grid grid-cols-2 mt-2 gap-4 px-6 w-full",
-                isLogin && "hidden"
-              )}
-            >
-              <Link className="w-full" href={"/register"}>
-                <Button className="w-full">Register</Button>
-              </Link>
-              <Link className="w-full" href={"/login"}>
-                <Button className="w-full">
-                  Login
-                  <LogInIcon />
-                </Button>
-              </Link>
-            </div>
+
+            <AuthBtn />
           </div>
         </div>
         <UserMenu />

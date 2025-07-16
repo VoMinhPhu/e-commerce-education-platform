@@ -12,11 +12,13 @@ import { LogInIcon, LogOutIcon, SettingsIcon, UserPenIcon } from "lucide-react";
 import { Separator } from "./ui/separator";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { useLogout } from "@/utils/api/auth";
 
 const UserMenu = () => {
   const [user, setUser] = useState<TokenPayload | null>(null);
   const [openMenu, setOpenMenu] = useState<boolean>(true);
   const isLogin = useAuth((state) => state.isLogin);
+  const handleLogout = useLogout();
 
   useEffect(() => {
     const token = Cookies.get("token");
@@ -24,10 +26,13 @@ const UserMenu = () => {
       try {
         const decoded = jwtDecode<TokenPayload>(token);
         useUser.getState().setUserData(decoded);
+        useAuth.getState().setIsLogin(true);
         setUser(decoded);
       } catch {
         setUser(null);
       }
+    } else {
+      setUser(null);
     }
   }, [isLogin]);
 
@@ -77,7 +82,10 @@ const UserMenu = () => {
                 </Link>
                 <Separator className="mb-2" />
                 <Button
-                  onClick={() => setOpenMenu(!openMenu)}
+                  onClick={() => {
+                    setOpenMenu(!openMenu);
+                    handleLogout();
+                  }}
                   variant={"ghost"}
                   size={"lg"}
                   className="justify-start cursor-pointer text-base hover:bg-primary-foreground hover:text-primary flex items-center gap-2 opacity-75"
