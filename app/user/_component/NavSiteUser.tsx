@@ -21,7 +21,7 @@ const NavSiteUser = () => {
   const path = usePathname();
 
   return (
-    <div className="p-4">
+    <div className="hidden lg:block p-4">
       <div className="flex items-center gap-2">
         <Avatar className="w-12 h-12 cursor-pointer">
           <AvatarImage src={"https://github.com/evilrabbit.png"} />

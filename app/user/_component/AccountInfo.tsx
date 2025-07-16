@@ -16,10 +16,26 @@ const AccountInfo = () => {
       </div>
       <Separator className="my-1" />
       <div className="grid grid-cols-3 p-4">
-        <div className="col-span-2">
+        <div className="col-span-3 lg:hidden">
+          <div className="flex items-center justify-center p-6">
+            <Avatar className="w-20 h-20 cursor-pointer">
+              <AvatarImage src={"https://github.com/evilrabbit.png"} />
+            </Avatar>
+          </div>
+          <div className="grid items-center justify-center gap-2">
+            <Button className="rounded-sm">Select image</Button>
+            <div className="grid gap-1">
+              <CardDescription>Maximum file size 1 MB</CardDescription>
+              <CardDescription>Format: .JPEG, .PNG</CardDescription>
+            </div>
+          </div>
+        </div>
+
+        <div className="lg:col-span-2 col-span-3">
           <FormUpdateInfoUser />
         </div>
-        <div className="col-span-1 ">
+
+        <div className="lg:col-span-1 hidden lg:block">
           <div className="flex items-center justify-center p-6">
             <Avatar className="w-20 h-20 cursor-pointer">
               <AvatarImage src={"https://github.com/evilrabbit.png"} />
