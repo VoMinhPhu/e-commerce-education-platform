@@ -1,75 +1,89 @@
 import { NextResponse } from "next/server";
-import fs from "fs";
-import path from "path";
 import jwt from "jsonwebtoken";
+import { db } from "@/lib/firebase";
+import {
+  collection,
+  query,
+  where,
+  getDocs,
+  addDoc,
+  updateDoc,
+  doc,
+} from "firebase/firestore";
 import { books } from "@/data/Books";
 import { courses } from "@/data/Course";
 
-const filePath = path.join(process.cwd(), "data", "carts.json");
+const JWT_SECRET = process.env.JWT_SECRET!;
 
 export async function POST(request: Request) {
   const { id, count } = await request.json();
 
   const authHeader = request.headers.get("authorization");
   const token = authHeader?.split(" ")[1];
-
-  if (!token) {
+  if (!token)
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  }
 
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET!) as TokenPayload;
+    const decoded = jwt.verify(token, JWT_SECRET) as TokenPayload;
+    const userId = decoded.id;
 
-    const fileData = fs.readFileSync(filePath, "utf-8");
-    const carts: Cart[] = fileData ? JSON.parse(fileData) : [];
+    const cartsRef = collection(db, "carts");
+    const q = query(cartsRef, where("userId", "==", userId));
+    const snapshot = await getDocs(q);
 
-    const userCart = carts.find((c) => c.userId === decoded.id);
+    if (!snapshot.empty) {
+      const cartDoc = snapshot.docs[0];
+      const cart = cartDoc.data() as Cart;
 
-    if (userCart) {
-      const index = userCart.productIds.findIndex((c) => c.productId === id);
+      const index = cart.productIds.findIndex((p) => p.productId === id);
       if (index !== -1) {
-        userCart.productIds[index].count += count;
+        cart.productIds[index].count += count;
       } else {
-        userCart.productIds.push({ productId: id, count });
+        cart.productIds.push({ productId: id, count });
       }
-    } else {
-      carts.push({
-        userId: decoded.id,
-        productIds: [{ productId: id, count }],
+
+      await updateDoc(doc(db, "carts", cartDoc.id), {
+        productIds: cart.productIds,
       });
+    } else {
+      const newCart: Cart = {
+        userId,
+        productIds: [{ productId: id, count }],
+      };
+      await addDoc(cartsRef, newCart);
     }
-    fs.writeFileSync(filePath, JSON.stringify(carts, null, 2), "utf-8");
 
     return NextResponse.json(
       { message: "Add product to cart successfully!" },
       { status: 201 }
     );
   } catch (err) {
+    console.error(err);
     return NextResponse.json({ error: "Invalid token" }, { status: 401 });
   }
 }
+
 export async function GET(request: Request) {
   const authHeader = request.headers.get("authorization");
   const token = authHeader?.split(" ")[1];
-
-  if (!token) {
+  if (!token)
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  }
 
   try {
-    // decoded to get userId
-    const decoded = jwt.verify(token, process.env.JWT_SECRET!) as TokenPayload;
+    const decoded = jwt.verify(token, JWT_SECRET) as TokenPayload;
+    const userId = decoded.id;
 
-    const fileData = fs.readFileSync(filePath, "utf-8");
-    const carts: Cart[] = fileData ? JSON.parse(fileData) : [];
+    const cartsRef = collection(db, "carts");
+    const q = query(cartsRef, where("userId", "==", userId));
+    const snapshot = await getDocs(q);
 
-    const resData = carts.find((c) => c.userId === decoded.id);
-
-    if (!resData) {
-      return NextResponse.json({ data: [] }, { status: 200 });
+    if (snapshot.empty) {
+      return NextResponse.json([], { status: 200 });
     }
 
-    const listProduct = resData.productIds.map((p) => {
+    const cart = snapshot.docs[0].data() as Cart;
+
+    const listProduct = cart.productIds.map((p) => {
       const book = books.find((b) => b.id === p.productId);
       const course = courses.find((c) => c.id === p.productId);
       const product = book || course;
@@ -82,6 +96,7 @@ export async function GET(request: Request) {
 
     return NextResponse.json(listProduct, { status: 200 });
   } catch (err) {
+    console.error(err);
     return NextResponse.json({ error: "Token expired" }, { status: 401 });
   }
 }
