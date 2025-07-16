@@ -5,7 +5,7 @@ const jwt = require("jsonwebtoken");
 
 const filePath = path.join(process.cwd(), "data", "users.json");
 
-const JWT_SECRET = process.env.JWT_SECRET || "kshdks@ss";
+const JWT_SECRET = process.env.JWT_SECRET!;
 const JWT_EXPIRES_IN = process.env.JWT_EXPIRES_IN || "1h";
 
 export async function POST(req: NextRequest) {

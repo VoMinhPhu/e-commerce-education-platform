@@ -1,5 +1,4 @@
 import { api } from "@/lib/axios";
-import { Product } from "@/types/products";
 import { useQuery } from "@tanstack/react-query";
 
 export const useGetSuggest = () => {
