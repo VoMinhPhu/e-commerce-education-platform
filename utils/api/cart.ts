@@ -4,6 +4,9 @@ import { AxiosError } from "axios";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 import { toast } from "sonner";
+import { useRouter } from "next/navigation";
+import { useAuth } from "@/stores/useAuth";
+import { useUser } from "@/stores/useUser";
 
 // Add product to cart
 export const useAddProductToCart = () => {
@@ -42,6 +45,8 @@ export const useAddProductToCart = () => {
 
 // Get product in cart
 export const useGetCart = () => {
+  const router = useRouter();
+
   return useQuery<GetCartResponse[] | []>({
     queryKey: ["cart"],
     queryFn: async () => {
@@ -52,15 +57,18 @@ export const useGetCart = () => {
             Authorization: `Bearer ${token}`,
           },
         });
-        const data = res.data;
-        return data || [];
-      } catch (error) {
+        return res.data || [];
+      } catch (error: any) {
+        if (error.response?.status === 401) {
+          Cookies.remove("token");
+          useAuth.getState().setIsLogin(false);
+          useUser.getState().resetUser();
+          router.replace("/login");
+        }
         console.error("Error fetching data cart:", error);
         return [];
       }
     },
-
-    //10 minutes
-    staleTime: 1000 * 60 * 10,
+    staleTime: 1000 * 60 * 10, // 10 minutes
   });
 };
