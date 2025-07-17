@@ -41,7 +41,6 @@ const FormRegister = () => {
   });
 
   function onSubmit(values: z.infer<typeof formRegister>) {
-    console.log(values);
     mutate(values);
     form.reset();
   }
