@@ -9,11 +9,11 @@ import { useAuth } from "@/stores/useAuth";
 import { useUser } from "@/stores/useUser";
 
 import { useRouter } from "next/navigation";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 //Login
 export const useLogin = () => {
-  const router = useRouter();
+  // const router = useRouter();
   return useMutation<
     LoginResponse,
     AxiosError<ErrorResponse>,
@@ -36,7 +36,8 @@ export const useLogin = () => {
       setTimeout(() => {
         useAuth.getState().setIsLogin(true);
         useUser.getState().setUserData(decoded);
-        router.push("/");
+        // router.push("/");
+        window.location.href = "/";
       }, 2000);
     },
     onError: (err) => {
@@ -77,9 +78,12 @@ export const useRegister = () => {
 
 export const useLogout = () => {
   const router = useRouter();
+  const queryClient = useQueryClient();
 
   return () => {
     Cookies.remove("token");
+    queryClient.invalidateQueries({ queryKey: ["cart"] });
+
     useAuth.getState().setIsLogin(false);
     useUser.getState().resetUser();
     router.push("/");
