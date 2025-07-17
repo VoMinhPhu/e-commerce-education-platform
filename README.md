@@ -6,7 +6,7 @@ git clone https://github.com/VoMinhPhu/e-commerce-education-platform.git
 cd e-commerce-education-platform
 ```
 
-ADD file .env.local at root
+ADD file ```.env.local``` at root
 
 At root folder run the development server:
 
